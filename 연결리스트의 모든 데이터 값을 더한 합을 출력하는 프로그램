@@ -1,0 +1,39 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef int element;
+typedef struct ListNode {
+    element data;
+    struct ListNode* link;
+}ListNode;
+
+ListNode* add(ListNode* head, element item) {
+    ListNode* p = (ListNode*)malloc(sizeof(ListNode));
+    p->data = item;
+    p->link = head;
+    head = p;
+    return head;
+}
+//데이터의 합을 구하는 함수
+int total(ListNode* head) {
+    int total = 0;
+    for (ListNode* p=head; p != NULL; p = p->link) {
+        total += p->data;
+    }
+    return total;
+}
+
+int main() {
+    ListNode* head = NULL;
+    int a,b ;
+    printf("노드의 개수 : ");
+    scanf("%d", &a);
+    for (int i = 1; i <= a; i++) {
+        printf("노드 #%d 데이터 : ", i);
+        scanf("%d", &b);
+        head = add(head, b);
+    }
+    printf("연결리스트의 데이터 합: %d\n", total(head));
+    return 0;
+}
