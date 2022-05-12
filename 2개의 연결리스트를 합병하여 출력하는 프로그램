@@ -1,0 +1,128 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+#define SWAP(x,y,t) ((t)=(x),(x)=(y),(y)=(t))
+
+typedef struct Node {
+	int data;
+	struct Node* next;
+}Node;
+Node* head;
+
+void makeArr(int arr[])
+{
+	for (int i = 0; i < 20; i++)
+		arr[i] = rand() % 999 + 1;
+}
+void printList(struct Node *a)
+{
+	for (; a != NULL; a = a->next)
+		printf("%d  ", a->data);
+	printf("\n");
+}
+
+void sort(int arr[])
+{
+	int i, j, min, temp;
+	for (i = 0; i < 19; i++) {
+		min = i;
+		for (j = i + 1; j < 20; j++)
+			if (arr[j] < arr[min])
+				min = j;
+		temp = arr[i];
+		arr[i] = arr[min];
+		arr[min] = temp;
+	}
+}
+struct Node* linkList(int arr[])
+{
+	struct Node* A = NULL;
+	struct Node* B = NULL;
+	struct Node* last = NULL;
+	int i = 0;
+
+	A = (struct Node*)malloc(sizeof(struct Node));
+	A->data = arr[0];
+	A->next = NULL;
+	last = A;
+
+	for (i = 1; i < 20; i++)
+	{
+		B = (struct Node*)malloc(sizeof(struct Node));
+		B->data = arr[i];
+		B->next = NULL;
+
+		last->next = B;
+		last = B;
+	}
+	return A;
+}
+
+struct Node* concat(struct Node* a, struct Node* b)
+{
+	struct Node* start;
+	struct Node* last;
+
+	if (a->data < b->data)
+	{
+		start = a;
+		last = start;
+		a = a->next;
+	}
+	else
+	{
+		start = b;
+		last = start;
+		b = b->next;
+	}
+
+	while (a != NULL && b != NULL)
+	{
+		if (a->data <= b->data)
+		{
+			last->next = a;
+			last = a;
+			a = a->next;
+		}
+		else
+		{
+			last->next = b;
+			last = b;
+			b = b->next;
+		}
+	}
+	
+	if (a == NULL)
+		last->next = b;
+	else
+		last->next = a;
+	return start;
+}
+
+void main()
+{
+	srand(time(NULL));
+
+	int arr1[20];
+	int arr2[20];
+	struct Node* a;
+	struct Node* b;
+	struct Node* c;
+
+	makeArr(arr1);
+	sort(arr1);
+	a = linkList(arr1);
+	printf("a 리스트: ");
+	printList(a);
+
+	makeArr(arr2);
+	sort(arr2);
+	b = linkList(arr2);
+	printf("b 리스트: ");
+	printList(b);
+
+	c = concat(a, b);
+	printf("a+b=c 리스트: ");
+	printList(c);
+}
