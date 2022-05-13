@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef char TElement;
+typedef struct BinTrNode {
+	TElement data;
+	struct BinTrNode* left;
+	struct BinTrNode* right;
+}TNode;
+TNode* root;
+
+void init_tree() {root = NULL;}
+int is_empty_tree() {	return root == NULL;}
+
+TNode* get_root() {	return root;}
+
+TNode* create_tree(TElement val, TNode* l, TNode* r)
+{
+	TNode* n = (TNode*)malloc(sizeof(TNode));
+	n->data = val;
+	n->left = l;
+	n->right = r;
+	return n;
+}
+
+// 트리의 추가 연산 코드 포함
+
+void main()
+{
+	TNode* b, * c, * d, * e, * f;
+
+	init_tree();
+	d = create_tree('D', NULL, NULL);
+	d = create_tree('E', NULL, NULL);
+	d = create_tree('B', d, e);
+	d = create_tree('F', NULL, NULL);
+	d = create_tree('C', f, NULL);
+	d = create_tree('A', b, c);
+
+	//트리 테스트 프로그램 추가
+	printf("\n     In-order : "); inorder(root);
+	printf("\n    Pre-order : "); preorder(root);
+	printf("\n   Post-order : "); inorder(root);
+	printf("\n  Level-order : "); inorder(root);
+	printf("\n");
+
+	printf(" 노드의 개수 = %d\n", count_node(root));
+	printf(" 단말의 개수 = %d\n", count_leaf(root));
+	printf(" 트리의 높이 = %d\n", calc_height(root));
+}
